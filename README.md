@@ -19,7 +19,7 @@ This application was developed to help students new to C# understand how to work
 What did you learn while building this project? What challenges did you face and how did you overcome them?
 
 
-#### Json file used by:
+#### Json file used from:
 
  - [James Montemagno](https://github.com/jamesmontemagno)
 
