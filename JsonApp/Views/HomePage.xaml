@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="JsonApp.Views.HomePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:icon="clr-namespace:JsonApp.Resources"
+    xmlns:model="clr-namespace:JsonApp.Model"
+    xmlns:template="clr-namespace:JsonApp.Resources.Templates"
+    xmlns:vm="clr-namespace:JsonApp.ViewModel"
+    x:Name="homepg"
+    Title="HomePage"
+    x:DataType="vm:HomePageViewModel"
+    Style="{StaticResource contentPg}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem>
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    FontFamily="MDI"
+                    Glyph="{x:Static icon:MaterialDesignIcons.TextSearch}"
+                    Size="20" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+        <ToolbarItem Order="Secondary" Text="Sort">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    FontFamily="MDI"
+                    Glyph="{x:Static icon:MaterialDesignIcons.Sort}"
+                    Size="20" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+        <ToolbarItem Clicked="ChangeAppTheme" Text="Theme">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    FontFamily="MDI"
+                    Glyph="{x:Static icon:MaterialDesignIcons.ThemeLightDark}"
+                    Size="20" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+        <ToolbarItem Command="{Binding LoadSavedMonkeysCommand}" Text="Saved">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    FontFamily="MDI"
+                    Glyph="{x:Static icon:MaterialDesignIcons.ContentSaveAll}"
+                    Size="20" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <ActivityIndicator
+                HeightRequest="70"
+                HorizontalOptions="Center"
+                IsRunning="True"
+                IsVisible="{Binding IsLoading}" />
+
+            <StackLayout IsVisible="{Binding SearchbarIsVisible}" Spacing="5">
+                <Frame
+                    Margin="15,15,15,0"
+                    Padding="1,1,1,0"
+                    CornerRadius="8">
+                    <SearchBar Placeholder="Search by location" />
+                </Frame>
+
+                <Label
+                    FontAttributes="Bold,Italic"
+                    FontSize="Small"
+                    HorizontalOptions="Center"
+                    Text="found..your challenge." />
+            </StackLayout>
+
+            <CollectionView Margin="10" ItemsSource="{Binding MonkiesCollection}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Monkey">
+                        <Frame CornerRadius="10" HasShadow="False">
+                            <StackLayout>
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="19"
+                                    HorizontalOptions="Center"
+                                    Text="{Binding Name}" />
+                                <Frame
+                                    Padding="0"
+                                    CornerRadius="8"
+                                    HeightRequest="250">
+                                    <Image Aspect="Fill" Source="{Binding Image}" />
+                                </Frame>
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span
+                                                FontAttributes="Bold"
+                                                FontSize="16"
+                                                Text="Location: " />
+                                            <Span FontSize="16" Text="{Binding Location}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label FontSize="Body" Text="{Binding Details}" />
+
+                                <StackLayout HorizontalOptions="End" Orientation="Horizontal">
+                                    <!-- Long Story.......
+                                    <Frame
+                                        Grid.Column="1"
+                                        Padding="5"
+                                        xct:TouchEffect.Command="{Binding Source={x:Reference homepg}, Path=BindingContext.SaveItemCommand}"
+                                        xct:TouchEffect.CommandParameter="{Binding .}"
+                                        CornerRadius="30"
+                                        HeightRequest="30"
+                                        WidthRequest="30">
+                                        <Label
+                                            FontFamily="MDI"
+                                            FontSize="30"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{x:Static icon:MaterialDesignIcons.ContentSaveOutline}"
+                                            TextColor="Black"
+                                            VerticalTextAlignment="Center" />
+                                    </Frame>
+                                    <Frame
+                                        Grid.Column="2"
+                                        Padding="5"
+                                        CornerRadius="30"
+                                        HeightRequest="30"
+                                        WidthRequest="30">
+                                        <Label
+                                            FontFamily="MDI"
+                                            FontSize="30"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{x:Static icon:MaterialDesignIcons.BookmarkOutline}"
+                                            TextColor="Black"
+                                            VerticalTextAlignment="Center" />
+                                    </Frame>
+                                    -->
+
+                                    <!--#region Clean + ReUseable Story......-->
+                                    <template:IconButtonTemplate
+                                        Grid.Column="1"
+                                        ClickedCommand="{Binding Source={x:Reference homepg}, Path=BindingContext.LikeItemCommand}"
+                                        ClickedCommandParameter="{Binding .}"
+                                        ControlTemplate="{StaticResource IconButton}"
+                                        IconGlyph="{Binding LikedIcon}" />
+                                    <template:IconButtonTemplate
+                                        Grid.Column="2"
+                                        ClickedCommand="{Binding Source={x:Reference homepg}, Path=BindingContext.SaveItemCommand}"
+                                        ClickedCommandParameter="{Binding .}"
+                                        ControlTemplate="{StaticResource IconButton}"
+                                        IconGlyph="{Binding SavedIcon}" />
+                                    <!--#endregion-->
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.Footer>
+                    <StackLayout BackgroundColor="Transparent" VerticalOptions="End">
+                        <Frame Margin="0,15,0,0">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="20"
+                                HorizontalTextAlignment="Center"
+                                Text="That's all....🙈..🐵..🐒..🙊" />
+                        </Frame>
+                    </StackLayout>
+                </CollectionView.Footer>
+            </CollectionView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

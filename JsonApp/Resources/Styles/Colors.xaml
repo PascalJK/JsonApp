@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    x:Class="JsonApp.Resources.Styles.Colors"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Color x:Key="color1">#EF6C00</Color>
+    <Color x:Key="color2">#EB9532</Color>
+    <Color x:Key="color3">#388E3C</Color>
+    <Color x:Key="color4">#B71C1C</Color>
+    <!--#region Dark-->
+    <Color x:Key="_Black0">#020403</Color>
+    <Color x:Key="_Black1">#1a1c20</Color>
+    <Color x:Key="_lightBlack">#9ba4b4</Color>
+
+    <!--#region Light-->
+    <Color x:Key="_whitesmoke">#f6f5f5</Color>
+    <Color x:Key="_white">#ffffff</Color>
+
+    <Color x:Key="Gray-100">#f6f7f8</Color>
+    <Color x:Key="Gray-300">#ced2d9</Color>
+    <Color x:Key="Gray-700">#606a7b</Color>
+
+</ResourceDictionary>
