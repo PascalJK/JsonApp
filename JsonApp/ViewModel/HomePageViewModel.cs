@@ -29,19 +29,28 @@ public class HomePageViewModel : BaseViewModel
 
     private async Task GetMonkiesAsync()
     {
-        StaticData.GetSavedMonkys();
-        StaticData.GetLikedMonkys();
-        var httpClient = new HttpClient();
-        HttpResponseMessage response = await httpClient.GetAsync(url);
-        var json = await response.Content.ReadAsStringAsync();
-
-        IEnumerable<Monkey> monkeys = JsonConvert.DeserializeObject<IEnumerable<Monkey>>(json);
-
-        foreach (Monkey monkey in monkeys)
+        try
         {
-            monkey.CheckIfSaved();
-            monkey.CheckIfLiked();
-            StaticData.CloudMonkiesList.Add(monkey);
+            StaticData.GetSavedMonkys();
+            StaticData.GetLikedMonkys();
+            var httpClient = new HttpClient();
+            HttpResponseMessage response = await httpClient.GetAsync(url);
+            var json = await response.Content.ReadAsStringAsync();
+
+            IEnumerable<Monkey> monkeys = JsonConvert.DeserializeObject<IEnumerable<Monkey>>(json);
+
+            foreach (Monkey monkey in monkeys)
+            {
+                monkey.CheckIfSaved();
+                monkey.CheckIfLiked();
+                StaticData.CloudMonkiesList.Add(monkey);
+            }
+        }
+        catch (Exception)
+        {
+            await PushSnackBarAsync("No internet connection will try fetching saved data if any.", 3000);
+            MonkiesCollection.ReplaceRange(StaticData.LikedMonkiesList);
+            return;
         }
 
         MonkiesCollection.ReplaceRange(StaticData.CloudMonkiesList);

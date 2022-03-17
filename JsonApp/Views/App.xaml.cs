@@ -5,6 +5,7 @@ public partial class App : Application
     {
         InitializeComponent();
         StaticData.LoadTheme();
+        XF.Material.Forms.Material.Init(this);
         MainPage = new NavigationPage(new HomePage());
     }
 

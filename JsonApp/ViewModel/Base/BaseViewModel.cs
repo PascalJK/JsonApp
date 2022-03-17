@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using XF.Material.Forms.UI.Dialogs;
 
 namespace JsonApp.ViewModel.Base;
 
@@ -26,6 +27,9 @@ public class BaseViewModel: INotifyPropertyChanged
         await Application.Current.MainPage.Navigation.PopAsync();
         IsBusy = false;
     }
+
+    public static async Task PushSnackBarAsync(string message, int duration = 1500)
+        => await MaterialDialog.Instance.SnackbarAsync(message: message, msDuration: duration);
 
     #region RunTasks
     protected async Task RunIsBusyTaskAsync(Func<Task> awaitableTask, bool isLoading = false)

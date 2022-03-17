@@ -55,14 +55,14 @@ public class Monkey : INotifyPropertyChanged
         var monkey = StaticData.LikedMonkiesList.SingleOrDefault(x => x.Name == Name);
         if (monkey == null)
         {
-            StaticData.LikedMonkiesList.Add(this);
             LikedIcon = MaterialDesignIcons.Heart;
+            StaticData.LikedMonkiesList.Add(this);
         }
 
         else
         {
-            StaticData.LikedMonkiesList.Remove(monkey);
             LikedIcon = MaterialDesignIcons.HeartBroken;
+            StaticData.LikedMonkiesList.Remove(monkey);
         }
         var json = JsonConvert.SerializeObject(StaticData.LikedMonkiesList);
         StaticData.SaveMonkey("likesJson", json);
@@ -72,14 +72,14 @@ public class Monkey : INotifyPropertyChanged
         var monkey = StaticData.SavedMonkiesList.SingleOrDefault(x => x.Name == Name);
         if (monkey == null)
         {
-            StaticData.SavedMonkiesList.Add(this);
             SavedIcon = MaterialDesignIcons.BookmarkCheck;
+            StaticData.SavedMonkiesList.Add(this);
         }
 
         else
         {
-            StaticData.SavedMonkiesList.Remove(monkey);
             SavedIcon = MaterialDesignIcons.BookmarkOutline;
+            StaticData.SavedMonkiesList.Remove(monkey);
         }
         var json = JsonConvert.SerializeObject(StaticData.SavedMonkiesList);
         StaticData.SaveMonkey("savedJson", json);
